@@ -3,15 +3,19 @@ elements.Target_Sensor = {
     behavior: behaviors.WALL,
     category: "machines",
     onSelect: function() {
-        let answer = prompt("Enter element to look for:");
-        window.myCustomMessage = answer;
-        let elementToLookFor = answer;
-    }
+        let answer = prompt("Enter element to look for (e.g., water):");
+        if (answer) {
+            window.targetElement = answer.toLowerCase().replace(" ", "_");
+        }
+    },
     reactions: {
-        elementToLookFor: {
-            func: function(pixel) {
-                pixel.charge = 1;
+        "ANY": {
+            func: function(pixel, pixel2) {
+                if (pixel2.element === window.targetElement) {
+                    pixel.charge = 1;
+                }
             }
         }
-    }
+    },
+    conduct: 1
 };
